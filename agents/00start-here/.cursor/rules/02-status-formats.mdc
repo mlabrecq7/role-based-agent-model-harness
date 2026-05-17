@@ -1,0 +1,36 @@
+---
+description: Status file formats for reading (00start-here does not write these)
+alwaysApply: true
+---
+
+# Status formats (read-only reference)
+
+## INDEX.md
+
+Rows: `agent-role,plan,status,date`
+
+Statuses: `draft` | `active` | `done` | `superseded` | `cancelled`
+
+`00start-here` does not appear in INDEX.
+
+## Daily log (`YYYY-MM-DD.md`)
+
+Entries look like:
+
+```markdown
+### ~HH:MM — <agent-role>
+**Plans:** ...
+**Done this session** ...
+**Still in flight** ...
+**Waiting on** ...
+```
+
+## Snapshot (`agents/<role>/snapshot.md`)
+
+Sections: **Accomplished** | **In flight** | **Waiting** | **Blocked**
+
+Accomplished = work done, not necessarily "plan closed" (only the user closes plans).
+
+## Local plans (`~/ai/agents/<role>/plans/NNN_<slug>.md`)
+
+Negotiated intent for that agent. Compare to INDEX status and logs for drift.

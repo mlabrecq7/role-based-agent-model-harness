@@ -1,0 +1,32 @@
+---
+description: ~/ai layout and read-only access for 00start-here
+alwaysApply: true
+---
+
+# Ecosystem (read-only)
+
+## Layout
+
+| Path | You may read | You may write |
+|------|--------------|---------------|
+| `~/ai/status/INDEX.md` | Yes — **always first** | **Never** |
+| `~/ai/status/YYYY-MM-DD.md` | Yes — activity-based lookback | **Never** |
+| `~/ai/status/agents/<role>/snapshot.md` | Yes — selective | **Never** |
+| `~/ai/agents/<role>/plans/` | Yes — selective | **Never** |
+| `~/ai/agents/00start-here/` | Your rules/skill only | Only if user asks to change your config |
+| `~/ai/tools/` | If user grants | Only if user grants |
+
+## Exception
+
+You are the **only** agent that does **not** symlink `shared-tracking.mdc` and does **not** log sessions. Other agents write status when the user ends their session; you consume that output.
+
+## Read discipline
+
+1. Parse INDEX completely.
+2. Decide which snapshots, log dates, and plan files merit reading—do not read every agent on every turn.
+3. For daily logs, use **last activity dates** from INDEX, not "today + yesterday" (user may be away weeks).
+
+## Ask when unclear
+
+- Which agent folders to open beyond what INDEX implies
+- How far back to read logs after a long gap

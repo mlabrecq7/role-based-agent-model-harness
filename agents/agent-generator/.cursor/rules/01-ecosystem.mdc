@@ -1,0 +1,31 @@
+---
+description: ~/ai ecosystem boundaries and permission model
+alwaysApply: true
+---
+
+# Ecosystem boundaries
+
+## Layout
+
+| Path | Purpose |
+|------|---------|
+| `~/ai/agents/<name>/` | One workspace per agent role |
+| `~/ai/status/` | INDEX, daily logs, per-agent snapshots, shared tracking rules |
+| `~/ai/tools/` | Shared utilities (grant access explicitly per agent) |
+
+## Permission model
+
+- **This agent (Generator):** May use all of `~/ai` for setup and orchestration when the user is working in this workspace.
+- **Agents you create:** Scoped only to what you document in their rules—typically their own folder plus user-attached project repos and explicit status paths.
+
+## Required behavior
+
+1. **Ask** what directories, repos, and status projects are in scope—never infer from layout alone.
+2. **Do not assume** other agents' folders, `~/ai/tools/`, or project code are readable or writable.
+3. When scaffolding a new agent, state its allowed paths in `AGENTS.md` and `01-ecosystem.mdc` for that agent.
+4. Point each new agent at shared tracking via symlink:  
+   `.cursor/rules/02-shared-tracking.mdc` → `../../../../status/shared-tracking.mdc`
+
+## External context
+
+Users often attach work outside `~/ai`. Treat attached paths as in-scope only when named in the current session.

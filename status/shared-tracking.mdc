@@ -1,0 +1,148 @@
+---
+description: Shared rules for local plans and global agent-centric status
+alwaysApply: true
+---
+
+# Shared plans and status
+
+Agents are **independent of projects**. The same codebase may have multiple agents with competing or parallel plans (e.g. refactoragent `005_eliminate_featureX` vs makeitworkagent `007_get_to_production`). What we track is **agent role + that agent's plans**, not a project bucket.
+
+## Before you read or write
+
+1. **Ask** what is in scope: your agent role name, paths, repos, read/write permission for `~/ai/status/`.
+2. **Do not assume** access to other agents' folders, their plans, `~/ai/tools/`, or code repos unless granted.
+3. Identify yourself by **agent role** (folder name under `~/ai/agents/`), not by project.
+
+---
+
+## Plans (local — every agent)
+
+```
+~/ai/agents/<agent-role>/plans/
+  005_<slug>.md
+```
+
+- Negotiate before substantial work. Informal approval ("go ahead", "looks good") → `active`.
+- Plans may reference a repo or product in prose—that is context, not the organizing key.
+- Plan status: `draft` | `active` | `done` | `superseded` | `cancelled`
+
+### Only the user closes a plan
+
+**Never** set a plan to `done`, `superseded`, or `cancelled` on your own—not in the local plan file, not in `INDEX.md`, not in the daily log **Plans** line.
+
+- You may mark a plan `active` when the user informally approves work ("go ahead", "looks good").
+- You may log session progress under **Done this session** (what you accomplished today).
+- If success criteria look met, **ask** the user: "Mark plan NNN done?"—only update lifecycle status after they say yes (informal OK).
+- Do not check off plan **Success criteria** unless the user confirms.
+
+---
+
+## Status (global)
+
+```
+~/ai/status/
+  INDEX.md           # all agents' plans — master registry
+  YYYY-MM-DD.md      # daily log — all agents append (newest at bottom)
+  agents/
+    <agent-role>/
+      snapshot.md    # this agent's current picture (overwrite on log)
+```
+
+### `INDEX.md`
+
+Single cross-agent list of plans. Update whenever a plan changes state or the user triggers a session log.
+
+Row format (CSV-friendly, one row per plan):
+
+```
+<agent-role>,<plan>,<status>,<date>
+```
+
+- **agent-role** — e.g. `refactoragent`, `makeitworkagent`, `agent-generator`
+- **plan** — plan id + slug, e.g. `005_eliminate_featureX` (matches filename without path)
+- **status** — `draft` | `active` | `done` | `superseded` | `cancelled`
+- **date** — ISO `YYYY-MM-DD` of last update
+
+Example:
+
+```
+refactoragent,005_eliminate_featureX,active,2026-05-17
+makeitworkagent,007_get_to_production,active,2026-05-17
+agent-generator,001_tracking_plans_and_status,active,2026-05-17
+```
+
+Keep rows sorted by agent then plan, or append and dedupe on update—be consistent.
+
+### Daily log (`YYYY-MM-DD.md`)
+
+- One file per calendar day at `~/ai/status/` root.
+- **All agents** append to the same file that day.
+- Create on first log; newest entry at bottom.
+
+```markdown
+### ~HH:MM — <agent-role>
+
+**Plans:**
+- `NNN_<slug>` — <plan status from file; do not promote to done without user> — <one-line progress>
+
+**Context** (optional)
+- <repo, product, or other project mention—free text, not a bucket key>
+
+**Done this session**
+- ...
+
+**Still in flight**
+- ...
+
+**Waiting on**
+- ...
+
+**Notes for next time**
+- ...
+```
+
+### Per-agent `snapshot.md`
+
+`~/ai/status/agents/<agent-role>/snapshot.md` — overwritten when **this** agent logs. Sections: Accomplished / In flight / Waiting / Blocked (work items—not plan lifecycle; never imply a plan is `done` here without the user).
+
+---
+
+## When to write status
+
+Only when the user is ending a session (interpret informal language: "done for today", "wrap up", "heading out", etc.).
+
+On trigger, update:
+
+1. Append `~/ai/status/YYYY-MM-DD.md`
+2. Update `INDEX.md` for every plan touched
+3. Refresh `~/ai/status/agents/<agent-role>/snapshot.md`
+4. Update local plan file status only for `active` or progress notes—**not** `done` unless the user said so
+
+---
+
+## Session start (restart)
+
+1. Confirm agent role and permissions.
+2. Read `~/ai/status/agents/<your-role>/snapshot.md`.
+3. Read `INDEX.md` rows for your role (and optionally others if user grants).
+4. Read today’s and yesterday’s `YYYY-MM-DD.md`; scan entries tagged with your role.
+5. Read relevant files under your local `plans/`.
+6. Summarize what you see; ask what changed.
+
+---
+
+## Cross-agent coordination
+
+- **INDEX** — see every agent's plans and states in one place (future orchestrator reads this).
+- **Daily log** — see what happened across agents on a given day.
+- **Do not** merge agents into project folders; competing plans on the same repo stay separate rows tied to different agents.
+
+## Matching plans to status
+
+| Signal | Action |
+|--------|--------|
+| Success criteria appear met | Ask user to mark plan done—do not update status yourself |
+| User says plan is done | Set plan file, INDEX row, and log accordingly |
+| Plan `active`, no recent log | Ask if user wants a session log |
+
+Write for a reader with **no chat history**.

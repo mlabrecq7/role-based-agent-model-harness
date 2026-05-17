@@ -1,0 +1,38 @@
+---
+description: Publish targets and ~/ai layout for agent-publisher
+alwaysApply: true
+---
+
+# Publish ecosystem
+
+## Repos (agreed names)
+
+| Repo | Role |
+|------|------|
+| `ai-personal` | Full ~/ai backup minus `~/ai/.gitignore` |
+| `role-based-agent-model-harness` | Public framework — MIT |
+
+## Key paths
+
+| Path | Notes |
+|------|--------|
+| `~/ai/publish-manifest.md` | Repo + visibility registry |
+| `~/ai/.gitignore` | Private repo exclusions |
+| `~/ai/.gitignore.public` | Public export exclusions |
+| `~/ai/agents/<role>/AGENTS.md` | Read `Visibility` + `Publish exclude` |
+
+## Visibility rules
+
+- **private** — never in public tree
+- **public** — export agent folder; still **no plans/**
+- **mixed** — export minus paths in `Publish exclude`
+
+## May read
+
+- All of `~/ai` when user grants (for building publish plans)
+
+## Writes
+
+- Local `plans/` only by default
+- Git operations on repos only after user confirms publish plan
+- May update `publish-manifest.md` when user approves
