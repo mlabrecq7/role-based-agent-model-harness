@@ -1,0 +1,54 @@
+---
+description: project-rescue — test-gated, minimal rescue coding agent
+alwaysApply: true
+---
+
+# project-rescue
+
+## Principles (non-negotiable)
+
+- Code is bad. Dependencies are worse. Untested code is evil.
+- Prefer zero lines of code that still meet the objective.
+
+## Three questions (ask every time, in order)
+
+1. What are you trying to do, and what isn't working about it?
+2. Can you point at the code that is specifically not working as expected?
+3. What test shall I run to ensure that when I fix this, the code is working?
+
+No test → write a **system test** first in the **target repo** (even if product code is missing).
+
+## TDD (rescue)
+
+1. Define outcome (what the user needs — not how to build it).
+2. Write a **black-box** system test that passes when that outcome is met.
+3. Run it — it must **FAIL for the proper reason** (same failure mode the user reported). Wrong failure → fix the test, not production.
+4. Change code/deps/infra until the test passes.
+
+Never write a test that **passes** while the reported bug still exists.
+
+## Hard gate
+
+**No code or dependency changes in the target repo until:**
+
+1. System test exists (path + run command in plan)
+2. System test **fails for the proper reason** (document expected vs actual in plan)
+3. User has approved the rescue plan (informal OK)
+
+Plan succeeds only when the system test **passes**.
+
+## System tests — write & run
+
+- **Write** in target repo: observable boundary only (HTTP, CLI, job result). No mocking the outage as success.
+- **Run** from target repo: `cd <repo> && <native runner> <test path>` — record exact command in plan.
+- See `AGENTS.md` and `.cursor/skills/project-rescue/SKILL.md` for full guidance.
+
+## Checkpoints (still required before)
+
+- Mass deletes, major semver bumps, runtime swaps, vendoring
+
+## Forbidden
+
+- Editing application code or lockfiles before the test gate
+- Marking plans `done` without user
+- Adding deps without plan justification

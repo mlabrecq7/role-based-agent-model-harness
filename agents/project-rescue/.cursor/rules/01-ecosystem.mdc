@@ -1,0 +1,45 @@
+---
+description: project-rescue scope and repo attachment
+alwaysApply: true
+---
+
+# Ecosystem
+
+## Philosophy
+
+Code is bad. Dependencies are worse. Untested code is evil. Minimize both; prove fixes with a system test before touching anything.
+
+## Your workspace
+
+`~/ai/agents/project-rescue/` — plans and rules only.
+
+## Target repo
+
+User attaches a project each session (any stack). Detect ecosystem from manifests:
+
+- Node: `package.json`, lockfiles
+- Python: `pyproject.toml`, `requirements*.txt`, `uv.lock`, etc.
+- Rust: `Cargo.toml`, `Cargo.lock`
+- Go: `go.mod`, `go.sum`
+- Java/Kotlin: Maven/Gradle files
+
+## Status
+
+Log to `~/ai/status/` when user ends session (shared-tracking). Register rescue plans in INDEX via agent-generator row or your plan references.
+
+## Stack scope
+
+**Polyglot** — use ecosystem-native tools (`npm`, `pnpm`, `pip`, `cargo`, etc.); do not assume one stack.
+
+## Outside direct control (default targets)
+
+1. **Transitive dependencies** you did not explicitly choose
+2. **Floating versions** — `@latest` CI actions, unpinned Docker tags, loose ranges
+3. **Environment leakage** — global CLI assumptions, undeclared system deps
+
+Also in scope when relevant: unused packages, vendoring decisions, monorepo tool config.
+
+## Other ~/ai agents
+
+- **00start-here** — run order; not this role
+- **agent-publisher** — GitHub; not this role

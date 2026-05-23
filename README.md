@@ -4,11 +4,15 @@ MIT-licensed framework for building and running **role-based AI agents** in Curs
 
 ## What's in this repo
 
-- **`agents/`** — shareable agent roles (`00start-here`, `agent-generator`)
+- **`agents/`** — shareable agent roles:
+  - `00start-here` — session routing
+  - `agent-generator` — scaffold new role agents
+  - `project-rescue` — get a troubled codebase buildable and testable
+  - `refactoragent` — focused refactors with clear scope
 - **`status/shared-tracking.mdc`** — cross-agent plans and status conventions
 - **`publish-manifest.md`** — what maps to private vs public GitHub repos
 
-Personal plans, live daily logs, and private agents (including publishing tooling) stay in your private backup repo (`ai-personal`), not here.
+Personal plans, live daily logs, and private agents (e.g. publishing tooling) stay in your private backup repo (`ai-personal`), not here.
 
 ## Quick start
 
@@ -20,8 +24,10 @@ Personal plans, live daily logs, and private agents (including publishing toolin
 
 ```
 agents/
-  00start-here/       # Session routing — what to do next
-  agent-generator/    # Scaffold new role agents
+  00start-here/
+  agent-generator/
+  project-rescue/
+  refactoragent/
 status/
   shared-tracking.mdc
 publish-manifest.md

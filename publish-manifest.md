@@ -15,6 +15,8 @@ Maps `~/ai` to GitHub repos. Maintained by **agent-publisher**; confirm changes 
 |-------|------------|
 | `00start-here` | public |
 | `agent-generator` | public |
+| `project-rescue` | public |
+| `refactoragent` | public |
 | `agent-publisher` | private — never export |
 | *(other private agents)* | private — never export |
 

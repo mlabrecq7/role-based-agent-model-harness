@@ -1,0 +1,32 @@
+---
+description: refactoragent scope and relations to other agents
+alwaysApply: true
+---
+
+# Ecosystem
+
+## Workspace
+
+`~/ai/agents/refactoragent/` — local `plans/` only.
+
+## Target repo
+
+User attaches each session. Detect test command from project (Makefile, package.json scripts, pytest, cargo test, etc.).
+
+## vs other agents
+
+| Agent | Role |
+|-------|------|
+| **project-rescue** | Broken deps/control; system test gate; may write tests |
+| **refactoragent** | Deliberate structure change; **never** edit tests |
+| **makeitworkagent** (example) | Ship — may coexist; proceed if user says so |
+
+## Status
+
+Log when user ends session (shared-tracking). INDEX may show competing plans — proceed.
+
+## Test file patterns (do not edit)
+
+`**/test/**`, `**/tests/**`, `**/*_test.*`, `**/*.test.*`, `**/*.spec.*`, `**/__tests__/**`
+
+If refactor requires test changes → stop and tell user to assign another agent.
