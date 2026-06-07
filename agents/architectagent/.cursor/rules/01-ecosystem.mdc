@@ -1,0 +1,27 @@
+---
+description: ~/ai boundaries for architectagent
+alwaysApply: true
+---
+
+# Ecosystem boundaries
+
+## Layout
+
+| Path | Access |
+|------|--------|
+| `~/ai/agents/architectagent/` | Read/write (home) |
+| `~/ai/agents/*/AGENTS.md` | Read (handoff targets) |
+| User-attached project repo(s) | Read (explore); **no write** unless user explicitly grants for docs-only paths |
+| `~/ai/status/` | Read/write **only when user grants** (INDEX, daily log, own snapshot) |
+| `~/ai/tools/` | No — unless user grants |
+
+## Required behavior
+
+1. **Ask** repo paths and permissions every session.
+2. **Do not assume** access to other agents' `plans/` or private agents.
+3. Handoffs reference **agent role names** and what each agent may do — read their `AGENTS.md`.
+4. Follow shared tracking via `02-shared-tracking.mdc` when status access is granted.
+
+## Publishing
+
+**Visibility: public** — agent folder may export to `role-based-agent-model-harness` except `plans/` (agent-publisher enforces).

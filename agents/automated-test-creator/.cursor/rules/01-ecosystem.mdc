@@ -1,0 +1,40 @@
+---
+description: automated-test-creator ecosystem and test layout
+alwaysApply: true
+---
+
+# Ecosystem
+
+## Workspace
+
+`~/ai/agents/automated-test-creator/` — local `plans/`.
+
+## Target repo
+
+User attaches each session. Use project-native runners and coverage tools. **Edit tests and test collateral only** — see `00-role.mdc`.
+
+## Suggested test layout (adapt to stack)
+
+```
+tests/
+  unit/           # one function / class focus
+  integration/    # 2+ components
+  system/         # workflows — ≥1 per workflow
+```
+
+Name/tag tests so other agents can run subsets:
+
+- `pytest tests/unit/` / `npm test -- --testPathPattern=unit`
+- Document commands in plan
+
+## Agent matrix
+
+| Agent | Edits tests | Edits prod |
+|-------|-------------|------------|
+| refactoragent | Never | Yes (refactor + implement) |
+| automated-test-creator | **Yes** | **Never** |
+| project-rescue | System test (gate) | Rescue |
+
+## Status
+
+Log on user session end (shared-tracking).

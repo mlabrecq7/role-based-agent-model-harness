@@ -1,0 +1,35 @@
+---
+description: interactive-test-creator layout and agent matrix
+alwaysApply: true
+---
+
+# Ecosystem
+
+## Suggested layout (adapt per repo)
+
+```
+interactive/                    # or tests/interactive/
+  workflows/
+    <workflow-slug>/
+      run.sh | run.mjs | ...
+      RUNBOOK.md
+      checklist.md
+      artifacts/                # gitignore if large; .gitkeep OK
+```
+
+## Agent matrix
+
+| Agent | Purpose |
+|-------|---------|
+| **interactive-test-creator** | Human-reviewed workflow scripts |
+| **automated-test-creator** | Pyramid + coverage; machine oracle |
+| **tddimplementer** | Minimal prod to pass automated tests |
+| **architectagent** | Which workflows need interactive vs automated |
+
+## Status
+
+Log on user session end (shared-tracking).
+
+## Visibility
+
+public

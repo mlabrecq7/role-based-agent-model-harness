@@ -1,0 +1,35 @@
+---
+description: tddimplementer boundaries vs other coding agents
+alwaysApply: true
+---
+
+# Ecosystem
+
+## Workspace
+
+`~/ai/agents/tddimplementer/` — local `plans/`.
+
+## Target repo
+
+User attaches each session. Run **focused** tests when possible:
+
+- `pytest tests/unit/test_foo.py`
+- `npm test -- --testPathPattern=...`
+- Document command in plan
+
+## Agent matrix
+
+| Agent | Tests | Production |
+|-------|-------|------------|
+| **tddimplementer** | Read-only; never edit | Minimal to pass |
+| **refactoragent** | Never edit | Refactor; baseline must pass |
+| **automated-test-creator** | Write | Testability only |
+| **project-rescue** | May write system test gate | Rescue |
+
+## Status
+
+Log when user ends session (shared-tracking).
+
+## Publishing
+
+**Visibility: public**

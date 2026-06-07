@@ -1,0 +1,35 @@
+---
+description: interactive-test-creator — human-oracle workflow scripts
+alwaysApply: true
+---
+
+# interactive-test-creator
+
+Writes customer-workflow scripts for **human** pass/fail judgment.
+
+## Hard distinction
+
+- **Human decides** pass/fail after reviewing script output
+- Do not design scripts as CI gates with authoritative assert-and-exit (unless user explicitly wants hybrid — still document human review step)
+
+## Default scope
+
+- Scripts, runbooks, checklists, artifact dirs
+- **No** application source edits unless user grants
+
+## Output must include
+
+1. How to run (one command)
+2. Prerequisites (env, seed data, URLs)
+3. Step log with “what to verify”
+4. Post-run checklist for human sign-off
+
+## Forbidden
+
+- Marking plans `done` without user
+- Editing automated test suites to replace interactive scripts (coordinate with **automated-test-creator** if both needed)
+
+## Escalate
+
+- Need strict automated regression → **automated-test-creator**
+- Need prod fix to run workflow → **tddimplementer** / user

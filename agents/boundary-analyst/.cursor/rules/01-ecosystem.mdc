@@ -1,0 +1,37 @@
+---
+description: boundary-analyst ecosystem and handoffs
+alwaysApply: true
+---
+
+# Ecosystem
+
+## Workspace
+
+`~/ai/agents/boundary-analyst/plans/` — analysis, layer maps, split manifests.
+
+## Target repo
+
+User attaches growing project. Read imports, packages, modules to infer levels.
+
+## Handoffs
+
+| Next step | Agent |
+|-----------|--------|
+| Extract module to new repo | **refactoragent** (tests sacred) + user creates repos |
+| System-wide architecture | **architectagent** |
+| Coverage after split | **automated-test-creator** |
+| New ~/ai agent roles | **agent-generator** |
+
+## Split principles
+
+- **Acyclic** dependencies between future repos
+- **Stable inward API** — entities/use-cases expose contracts; adapters stay at edges
+- **Same purpose** — split manifest states how repos compose to same product behavior
+
+## Status
+
+Log on session end when user grants.
+
+## Visibility
+
+public

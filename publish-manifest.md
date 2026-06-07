@@ -15,9 +15,15 @@ Maps `~/ai` to GitHub repos. Maintained by **agent-publisher**; confirm changes 
 |-------|------------|
 | `00start-here` | public |
 | `agent-generator` | public |
+| `agent-publisher` | private — never export |
 | `project-rescue` | public |
 | `refactoragent` | public |
-| `agent-publisher` | private — never export |
+| `automated-test-creator` | public |
+| `architectagent` | public |
+| `tddimplementer` | public |
+| `interactive-test-creator` | public |
+| `production-deployment` | **private** — never export |
+| `boundary-analyst` | public |
 | *(other private agents)* | private — never export |
 
 ## Never publish (any repo)

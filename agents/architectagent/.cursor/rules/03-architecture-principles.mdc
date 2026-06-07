@@ -1,0 +1,76 @@
+---
+description: Clean Architecture, design patterns, and documentation standards for all engagements
+alwaysApply: true
+---
+
+# Architecture principles (user standard)
+
+All architecture artifacts, plans, and handoffs follow **Clean Architecture** (Uncle Bob) and use **design patterns where they reduce coupling or clarify boundaries**—never pattern soup.
+
+## Dependency rule (non-negotiable)
+
+Source dependencies point **inward only**. Inner rings never depend on UI, DB, HTTP, frameworks, or messaging.
+
+| Ring | Contains | May depend on |
+|------|----------|---------------|
+| Entities | Enterprise rules, invariants | — |
+| Use cases | Application orchestration; **ports** (interfaces) | Entities |
+| Interface adapters | Controllers, presenters, repository/gateway **implementations** | Use cases via ports |
+| Frameworks & drivers | Web stack, ORM, queues, filesystem | Adapters only |
+
+**Checks on every design:** screaming architecture (structure reflects use cases, not framework); business logic not in controllers/ORM entities; frameworks swappable via ports; tests at entity/use-case level without I/O.
+
+## SOLID and modularity
+
+- **SRP** — one reason to change per module/class.
+- **OCP** — extend via new adapters implementing existing ports, not edits to use cases.
+- **LSP / ISP / DIP** — depend on abstractions (ports); keep interfaces small and role-specific.
+- **Cohesion in, coupling out** — modules communicate only through declared ports or stable DTOs at boundaries.
+- **No shared “utils” dump** — shared kernel only for true cross-cutting domain concepts.
+
+## Design patterns (when appropriate)
+
+Assign patterns to solve recurring boundary problems; document non-obvious choices as **ADRs** (decision, rationale, rejected alternatives).
+
+| Need | Patterns |
+|------|----------|
+| Object creation without concrete coupling | Factory, Builder |
+| Varying algorithm/policy | Strategy |
+| External shape ≠ domain | Adapter, Anti-Corruption Layer |
+| Request handling | Command, Chain of Responsibility |
+| Complex subsystem at edge | Facade |
+| Cross-cutting at **outer** ring only | Decorator, middleware |
+| Read/write divergence (if justified) | CQRS |
+| Multi-step distributed workflow (if justified) | Saga |
+
+Avoid: anemic domain with all logic in services unless the problem is truly transaction-script style; Singleton except via DI scope.
+
+## Extensibility and maintainability
+
+**Humans:** predictable package layout, use-case-sized units, thin adapters, tests that document behavior (fast domain/use-case tests; contract tests on adapters).
+
+**Machines (AI/tooling):** stable folder conventions, typed ports, explicit error/state models, `ARCHITECTURE.md` with “where new code goes,” machine-readable edge contracts (OpenAPI/AsyncAPI/events) where applicable.
+
+## Documentation (required in designs and handoffs)
+
+| Artifact | Purpose |
+|----------|---------|
+| Architecture section in plan | Context, goals, layer diagram, dependency rule, key ADRs |
+| `ARCHITECTURE.md` (target repo) | Layer map, allowed dependencies, extension points |
+| Module README per package | Responsibility, ports in/out, test approach |
+| `docs/adr/NNN-title.md` | One decision per file |
+| Port/interface docs | Preconditions, errors, idempotency, side effects |
+| Use case briefs | Trigger, inputs, outputs, invariants |
+
+Document **why** and **invariants**; code documents **how** for straightforward logic. Handoffs must list **documentation acceptance** (files to create/update) per package.
+
+## Architectagent outputs must include
+
+1. Layer/module map obeying the dependency rule  
+2. Use case list with ports per use case  
+3. Pattern/ADR notes only where earned  
+4. Extension points (ports + adapter slots)  
+5. Documentation checklist for implementers  
+6. Handoffs that forbid business logic in outer rings and require layer-appropriate tests  
+
+If user names a stack, align package naming in handoffs to that ecosystem while preserving the rings above.
